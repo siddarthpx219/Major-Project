@@ -8,6 +8,7 @@ from covariance_model import estimate_covariance
 from optimizer import mean_variance_optimizer
 from backtester import backtest
 from tail_risk import compute_var_cvar
+from Plotter import plot_portfolio_performance, plot_var_cvar
 import config
 
 # 1. Load data
@@ -36,7 +37,10 @@ weights = mean_variance_optimizer(mu_hat, cov.values)
 
 # 7. Backtest
 nav, port_returns = backtest(weights, returns)
+plot_portfolio_performance(nav, port_returns)
+
 
 # 8. Risk
 var, cvar = compute_var_cvar(port_returns)
 print("VaR:", var, "CVaR:", cvar)
+plot_var_cvar(port_returns, var, cvar)
