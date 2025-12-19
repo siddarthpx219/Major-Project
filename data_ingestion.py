@@ -2,10 +2,17 @@
 
 import pandas as pd
 import numpy as np
+import yfinance as yf
 
-def load_price_data(price_path: str) -> pd.DataFrame:
-    prices = pd.read_csv(price_path, index_col=0, parse_dates=True)
-    return prices.sort_index()
+def load_price_data(tickers: list, start_date: str, end_date: str) -> pd.DataFrame:
+    """
+    Load price data from yfinance and compute returns.
+    """
+    # Download adjusted close prices from yfinance
+    prices = yf.download(tickers, start=start_date, end=end_date, progress=False)
+    
+    return prices
+
 
 def compute_returns(prices: pd.DataFrame) -> pd.DataFrame:
     returns = np.log(prices / prices.shift(1)).dropna()
