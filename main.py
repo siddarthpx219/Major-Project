@@ -13,9 +13,9 @@ import config
 
 # 1. Load data
 prices = load_price_data(config.TICKER, config.START_DATE, config.END_DATE)
-print(prices.head())
+print("unclean prices", prices.head())
 returns = clean_returns(compute_returns(prices))
-print(returns.head())
+print("clean returns", returns.head())
 
 # 2. Features
 features = build_ml_features(returns)
