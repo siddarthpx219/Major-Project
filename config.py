@@ -1,17 +1,43 @@
-#config
+# -------------------------
+# Data Configuration
+# -------------------------
 
-START_DATE = "2013-01-01"
-END_DATE = "2024-01-01"
-TICKER = ['RELIANCE.NS', 'HDFCBANK.NS', 'BHARTIARTL.NS', 'TCS.NS', 'ICICIBANK.NS',
-    'SBIN.NS', 'INFY.NS', 'BAJFINANCE.NS', 'LT.NS', 'HINDUNILVR.NS',
-    'MARUTI.NS', 'M&M.NS', 'HCLTECH.NS', 'SUNPHARMA.NS', 'ITC.NS',
-    'KOTAKBANK.NS', 'AXISBANK.NS', 'TITAN.NS', 'ULTRACEMCO.NS', 'NTPC.NS',]
-FREQUENCY = "M"
+START_DATE = '2010-01-01'
+END_DATE = '2025-01-01'
+DATA_FREQUENCY = '1mo'
+PERIODS_PER_YEAR = 12
 
-RISK_FREE_RATE = 0.04
-NUM_REGIMES = 3
-ROLLING_WINDOW = 36
 
-TRANSACTION_COST = 0.001
-MAX_WEIGHT = 0.15
-LONG_ONLY = True
+STOCK_TICKERS = [
+    'RELIANCE.NS',
+    'TCS.NS',
+    'HDFCBANK.NS',
+    'ICICIBANK.NS',
+]
+
+
+# -------------------------
+# Black–Litterman Parameters
+# -------------------------
+
+RISK_FREE_RATE_ANNUAL = 0.03
+RISK_FREE_RATE_PERIODIC = RISK_FREE_RATE_ANNUAL / PERIODS_PER_YEAR
+
+IMPLIED_RISK_AVERSION = 2.5
+
+TAU = 0.05  # Prior uncertainty scaling
+
+
+# -------------------------
+# HMM Parameters
+# -------------------------
+
+NUM_MARKET_REGIMES = 3
+HMM_TRAINING_PERIOD_YEARS = 5
+
+
+# -------------------------
+# Plotting
+# -------------------------
+
+PLOT_SAVE_PATH = 'plots/'
