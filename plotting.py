@@ -67,7 +67,7 @@ def plot_covariance_heatmap(cov_matrix: pd.DataFrame, save_path: str = PLOT_SAVE
     _ensure_path(save_path)
 
     plt.figure(figsize=(10, 8))
-    sns.heatmap(cov_matrix, cmap="coolwarm", square=True)
+    sns.heatmap(cov_matrix, cmap="Reds", square=True)
     plt.title("Annualized Covariance Heatmap")
 
     plt.tight_layout()

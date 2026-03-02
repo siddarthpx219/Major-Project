@@ -1,3 +1,5 @@
+import yfinance as yf
+
 # -------------------------
 # Data Configuration
 # -------------------------
@@ -8,12 +10,13 @@ DATA_FREQUENCY = '1mo'
 PERIODS_PER_YEAR = 12
 
 
-STOCK_TICKERS = [
-    'RELIANCE.NS',
-    'TCS.NS',
-    'HDFCBANK.NS',
-    'ICICIBANK.NS',
-]
+STOCK_TICKERS = ['BHARTIARTL.NS', 'LTIM.NS', 'HDFCLIFE.NS', 'NTPC.NS', 'MARUTI.NS',
+ 'NESTLEIND.NS', 'BAJFINANCE.NS', 'KOTAKBANK.NS', 'TATASTEEL.NS',
+ 'ONGC.NS', 'BAJAJ-AUTO.NS', 'LT.NS', 'ITC.NS', 'TCS.NS', 'BRITANNIA.NS',
+ 'SHRIRAMFIN.NS', 'ADANIENT.NS', 'CIPLA.NS', 'WIPRO.NS', 'INDUSINDBK.NS',
+ 'ULTRACEMCO.NS', 'TATACONSUM.NS', 'BAJAJFINSV.NS', 'RELIANCE.NS',
+ 'HEROMOTOCO.NS', 'COALINDIA.NS', 'TITAN.NS', 'HINDALCO.NS',
+ 'APOLLOHOSP.NS']
 
 
 # -------------------------

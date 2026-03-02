@@ -3,7 +3,7 @@ import pandas as pd
 import json
 import re
 
-from config import NUM_MARKET_REGIMES, VIEWS_CONFIDENCE
+from config import NUM_MARKET_REGIMES, TAU
 from regime import get_regime_labels
 from ollama_client import wait_for_ollama, query_llama
 
@@ -91,7 +91,7 @@ def generate_llama_views_and_confidence(
     hmm_model,
     scaler,
     tickers: list[str],
-    views_confidence: float = VIEWS_CONFIDENCE
+    TAU: float = TAU
 ):
 
     num_assets = len(tickers)

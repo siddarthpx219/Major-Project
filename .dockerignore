@@ -1,0 +1,14 @@
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.git
+.gitignore
+.ipynb_checkpoints
+ollama_data
+models
+*.pt
+*.pkl
+*.csv
+.env
