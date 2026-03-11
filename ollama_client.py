@@ -1,6 +1,7 @@
 import os
 import requests
 import time
+import json
 
 OLLAMA_URL = os.getenv(
     "OLLAMA_URL",
@@ -13,7 +14,7 @@ OLLAMA_HEALTH_URL = os.getenv(
 )
 
 
-def wait_for_ollama(timeout: int = 60):
+def wait_for_ollama(timeout: int = 120):
     """
     Wait until Ollama server is available.
     """
@@ -37,9 +38,6 @@ def wait_for_ollama(timeout: int = 60):
 
 
 def query_llama(prompt: str, temperature: float = 0.3):
-    """
-    Send prompt to local Ollama model.
-    """
 
     payload = {
         "model": "llama3.1:8b",
@@ -48,12 +46,18 @@ def query_llama(prompt: str, temperature: float = 0.3):
         "stream": False
     }
 
-    response = requests.post(
-        OLLAMA_URL,
-        json=payload,
-        timeout=120
-    )
+    try:
+        response = requests.post(OLLAMA_URL, json=payload, timeout=(10, 600))
+    except requests.exceptions.ConnectionError as e:
+        print(f"Connection failed: {e}. Ensure Ollama is running.")
+        return None  # Or raise a custom exception
 
-    response.raise_for_status()
+    print("Ollama status:", response.status_code)
 
-    return response.json()["response"]
+    try:
+        data = response.json()
+    except json.JSONDecodeError:
+        print(f"Invalid JSON response: {response.text}")
+        return ""
+
+    return data.get("response", "")

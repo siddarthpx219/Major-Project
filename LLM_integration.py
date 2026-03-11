@@ -14,17 +14,14 @@ from ollama_client import wait_for_ollama, query_llama
 
 def _call_llama_model(prompt: str) -> str:
     """
-    Calls local Ollama (LLaMA 3.1) and returns raw text.
-    Falls back to simulation if Ollama fails.
+    Calls local Ollama and returns raw text.
+    Does NOT fallback to simulation.
     """
-    try:
-        wait_for_ollama()
-        response_text = query_llama(prompt)
-        return response_text
-    except Exception as e:
-        print(f"Ollama call failed: {e}")
-        print("Falling back to simulated response.")
-        return _simulate_llama_response_fallback(prompt)
+    wait_for_ollama()
+
+    response_text = query_llama(prompt)
+
+    return response_text
 
 
 # ---------------------------------------------------
@@ -33,24 +30,34 @@ def _call_llama_model(prompt: str) -> str:
 
 def _extract_json(text: str):
     """
-    Extract JSON from LLM response.
-    Handles raw JSON or markdown fenced output.
+    Extract JSON safely from LLM output.
+    Handles raw JSON or markdown fenced JSON.
     """
     try:
         text = text.strip()
 
         # Remove markdown fences if present
         if text.startswith("```"):
-            text = re.sub(r"```json|```", "", text).strip()
+            text = text.replace("```json", "").replace("```", "").strip()
 
-        json_match = re.search(r"\{.*\}", text, re.DOTALL)
-        if not json_match:
+        # First attempt: direct parse
+        return json.loads(text)
+
+    except Exception:
+        pass
+
+    try:
+        # Fallback: slice from first { to last }
+        start = text.find("{")
+        end = text.rfind("}") + 1
+
+        if start == -1 or end == -1:
             return None
 
-        return json.loads(json_match.group())
+        return json.loads(text[start:end])
 
     except Exception as e:
-        print(f"JSON extraction error: {e}")
+        print("JSON extraction error:", e)
         return None
 
 
@@ -132,14 +139,24 @@ Return ONLY a JSON object with:
 No explanations.
 """
 
-    raw_response = _call_llama_model(prompt)
+    try:
+        raw_response = _call_llama_model(prompt)
 
-    response_data = _extract_json(raw_response)
+        response_data = _extract_json(raw_response)
+
+        print("JSON parsed successfully:", response_data is not None)
+
+    except Exception as e:
+        print(f"LLM request failed: {e}")
+        response_data = None
+
 
     if response_data is None:
+        print("Using simulated LLM fallback.")
         response_data = json.loads(
             _simulate_llama_response_fallback(prompt)
         )
+
 
     P_matrix = np.array(response_data["P_matrix"])
     Q_vector = np.array(response_data["Q_vector"])

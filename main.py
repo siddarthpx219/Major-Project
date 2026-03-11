@@ -85,7 +85,7 @@ def main():
         n_components=NUM_MARKET_REGIMES
     )
 
-    current_regime_idx = get_current_regime(hmm_model, scaler, log_returns)
+    current_regime_idx  = get_current_regime(hmm_model, scaler, log_returns)
     regime_labels, _ = get_regime_labels(regime_means, NUM_MARKET_REGIMES)
 
     print(f"Detected Regime: {regime_labels[current_regime_idx]}")
@@ -115,7 +115,7 @@ def main():
         tickers=log_returns.columns.tolist()
     )
 
-    # Confidence normalization for plotting only
+    # Confidence normalization for plotting only 
     omega_diag = np.diag(Omega_llm)
     omega_diag_safe = np.where(omega_diag == 0, 1e-10, omega_diag)
     inv_conf = 1 / omega_diag_safe

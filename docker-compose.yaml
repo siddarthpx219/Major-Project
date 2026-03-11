@@ -3,7 +3,7 @@ version: "3.9"
 services:
   ollama:
     image: ollama/ollama
-    container_name: ollama
+    container_name: major_ollama
     ports:
       - "11434:11434"
     volumes:
@@ -18,7 +18,7 @@ services:
     environment:
       - OLLAMA_URL=http://ollama:11434/api/generate
     volumes:
-      - .:/app
+      - ./plots:/app/plots
     restart: unless-stopped
 
 volumes:
