@@ -142,6 +142,8 @@ No explanations.
     try:
         raw_response = _call_llama_model(prompt)
 
+        print("Raw LLM response received. :", raw_response[:200], "..." if len(raw_response) > 200 else "")
+
         response_data = _extract_json(raw_response)
 
         print("JSON parsed successfully:", response_data is not None)
